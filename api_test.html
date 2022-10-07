@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+  <title>API Test</title>
+</head>
+<body>
+  <header>
+  <form id="search_form" style="display:flex;justify-content:flex-start;">
+    <div style="margin-right: 10px">Enter a state code:</div>
+    <input id="search" type="text" style="margin-right: 10px;">
+    <button id="submit">Submit</button>
+  </form>
+  </header>
+  <main>
+    <ul id="results">
+    </ul>
+  </main>
+</body>
+<script type="text/javascript">
+  $( function() {
+    $('#search_form').submit( function(e) {
+      e.preventDefault();
+      let query = 'https://developer.nps.gov/api/v1/campgrounds?stateCode='+$('#search').val().trim()+'&api_key=n9ZtO9IBzmlj5LnxQQ1WWSUaPbniCC1eIPJUIX0F';
+      // let query = 'https://developer.nps.gov/api/v1/campgrounds?parkCode=voya&api_key=n9ZtO9IBzmlj5LnxQQ1WWSUaPbniCC1eIPJUIX0F';
+
+      fetch(query)
+      .then(function(response) {return response.json()})
+      .then(function(data) {
+        let s = '';
+        $('#results').empty();
+        console.log(data.data);
+        for (var i=0;i<data.data.length;i++) {
+          s += '<li>';
+          s += data.data[i].name + '<br/>';
+          s += 'latitude: '+data.data[i].latitude + '<br/>';
+          s += 'longitude: '+data.data[i].longitude + '<br/>';
+          if (data.data[i].images.length > 0) {
+            s += '<img width="100" src="'+data.data[i].images[0].url+'"/>';
+          } else {
+            s += '(no image available)';
+          }
+          s += '</li>';
+        }
+        $('#results').append(s);
+        
+
+      });
+    });
+  });
+</script>
+</html>
