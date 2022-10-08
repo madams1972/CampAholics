@@ -9,47 +9,111 @@
 </head>
 <body>
   <header>
-  <form id="search_form" style="display:flex;justify-content:flex-start;">
-    <div style="margin-right: 10px">Enter a state code:</div>
-    <input id="search" type="text" style="margin-right: 10px;">
-    <button id="submit">Submit</button>
-  </form>
+    <form id="mapbox_form" style="display:flex;justify-content:flex-start;">
+      <div style="margin-right: 10px">Enter a location:</div>
+      <input id="mapbox_search" type="text" style="margin-right: 10px;">
+      <button id="submit">Submit</button>
+    </form>
+    <!-- <form id="nps_form" style="display:flex;justify-content:flex-start;">
+      <div style="margin-right: 10px">Enter a state code:</div>
+      <input id="nps_search" type="text" style="margin-right: 10px;">
+      <button id="submit">Submit</button>
+    </form> -->
   </header>
-  <main>
-    <ul id="results">
-    </ul>
+  <main id="results" style="margin-top:20px;">
   </main>
 </body>
 <script type="text/javascript">
   $( function() {
-    $('#search_form').submit( function(e) {
-      e.preventDefault();
-      let query = 'https://developer.nps.gov/api/v1/campgrounds?stateCode='+$('#search').val().trim()+'&api_key=n9ZtO9IBzmlj5LnxQQ1WWSUaPbniCC1eIPJUIX0F';
-      // let query = 'https://developer.nps.gov/api/v1/campgrounds?parkCode=voya&api_key=n9ZtO9IBzmlj5LnxQQ1WWSUaPbniCC1eIPJUIX0F';
 
+    window.nps_data = [];
+    let nps_query = 'https://developer.nps.gov/api/v1/campgrounds?limit=800&api_key=n9ZtO9IBzmlj5LnxQQ1WWSUaPbniCC1eIPJUIX0F';
+    fetch(nps_query)
+    .then(function(response) {return response.json()})
+    .then(function(data) {
+      window.nps_data = data;
+    });
+
+    $('#mapbox_form').submit( function(e) {
+      e.preventDefault();
+
+      let query = 'https://api.mapbox.com/geocoding/v5/mapbox.places/'+$('#mapbox_search').val().trim()+'.json?access_token=pk.eyJ1IjoiYmluZGVyYiIsImEiOiJjbDh5aDB4YmMwZ2hkM3VubjYxNnkzOGU5In0.-VmsT6OjBY12TuPgeei8bQ';
       fetch(query)
       .then(function(response) {return response.json()})
       .then(function(data) {
         let s = '';
         $('#results').empty();
-        console.log(data.data);
-        for (var i=0;i<data.data.length;i++) {
-          s += '<li>';
-          s += data.data[i].name + '<br/>';
-          s += 'latitude: '+data.data[i].latitude + '<br/>';
-          s += 'longitude: '+data.data[i].longitude + '<br/>';
-          if (data.data[i].images.length > 0) {
-            s += '<img width="100" src="'+data.data[i].images[0].url+'"/>';
-          } else {
-            s += '(no image available)';
-          }
-          s += '</li>';
+        if (data.features.length == 0) {
+          s += 'Sorry, no results returned.';
+        } else {
+          let filtered_nps = window.nps_data.data.filter(e => 
+            parseFloat(e.longitude) >= parseFloat(data.features[0].center[0])-1 &&
+            parseFloat(e.longitude) <= parseFloat(data.features[0].center[0])+1 &&
+            parseFloat(e.latitude) >= parseFloat(data.features[0].center[1])-1 &&
+            parseFloat(e.latitude) <= parseFloat(data.features[1].center[1])+1
+          );
+
+          s += 'Place returned: '+data.features[0].place_name+'<br/>';
+          s += 'Latitude: '+data.features[0].center[1]+'<br/>';
+          s += 'Longitude: '+data.features[0].center[0]+'<br/>';
+          s += 'Campgrounds within 1 degree latitude/longitude: ';
+
+            if (filtered_nps.length > 0) {
+              s += '<ul>';
+              for (var i=0;i<filtered_nps.length;i++) {
+                s += '<li>';
+                  s += filtered_nps[i].name+'<br/>';
+                  s += 'Latitude: '+filtered_nps[i].latitude+'<br/>';
+                  s += 'Longitude: '+filtered_nps[i].longitude+'<br/>';
+                  if (filtered_nps[i].images.length > 0) {
+                    s += '<img height="75" src="'+filtered_nps[i].images[0].url+'"/>';
+                  } else {
+                    s += '(no image available)';
+                  }
+                s += '</li>';
+              }
+              s += '</ul>';
+            } else {
+              s += 'No campgrounds found within 1 degree latitude/longitude.';
+            }
+
+
         }
+        
         $('#results').append(s);
         
 
       });
     });
+    // $('#nps_form').submit( function(e) {
+    //   e.preventDefault();
+
+    //   let query = 'https://developer.nps.gov/api/v1/campgrounds?stateCode='+$('#nps_search').val().trim()+'&api_key=n9ZtO9IBzmlj5LnxQQ1WWSUaPbniCC1eIPJUIX0F';
+    //   // let query = 'https://developer.nps.gov/api/v1/campgrounds?parkCode=voya&api_key=n9ZtO9IBzmlj5LnxQQ1WWSUaPbniCC1eIPJUIX0F';
+
+    //   fetch(query)
+    //   .then(function(response) {return response.json()})
+    //   .then(function(data) {
+    //     let s = '';
+    //     $('#results').empty();
+    //     console.log(data.data);
+    //     for (var i=0;i<data.data.length;i++) {
+    //       s += '<li>';
+    //       s += data.data[i].name + '<br/>';
+    //       s += 'latitude: '+data.data[i].latitude + '<br/>';
+    //       s += 'longitude: '+data.data[i].longitude + '<br/>';
+    //       if (data.data[i].images.length > 0) {
+    //         s += '<img width="100" src="'+data.data[i].images[0].url+'"/>';
+    //       } else {
+    //         s += '(no image available)';
+    //       }
+    //       s += '</li>';
+    //     }
+    //     $('#results').append(s);
+        
+
+    //   });
+    // });
   });
 </script>
 </html>
