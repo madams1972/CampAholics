@@ -36,15 +36,15 @@ $('#mapbox_form').submit( function(e) {
           {x: b.latitude, y: b.longitude},
           {x: data.features[0].center[1], y: data.features[0].center[0]}
         );
-        if (dist_a > dist_b) return 1;
-        if (dist_b > dist_a) return -1;
+        if (parseFloat(dist_a) > parseFloat(dist_b)) return 1;
+        if (parseFloat(dist_b) > parseFloat(dist_a)) return -1;
       });
       // Display location information in results.
       $('#results_list').append(
-        '<ul> <li>Place returned: ' + data.features[0].place_name + '</li>' +
-          '<li>Latitude: ' + data.features[0].center[1] + '</li>' +
-          '<li>Longitude: ' + data.features[0].center[0] + '</li>' +
-          '<li>Campgrounds within '+mile_radius+' miles:</li>'+
+        '<ul><li><b>Place returned:<br/></b> ' + data.features[0].place_name + '</li>' +
+          // '<li>Latitude: ' + data.features[0].center[1] + '</li>' +
+          // '<li>Longitude: ' + data.features[0].center[0] + '</li>' +
+          '<li><b>Campgrounds within '+mile_radius+' miles:<br/></b> '+filtered_nps.length+' results.</li>'+
         '</ul>');
       // Iterate through the list of found 
       if (filtered_nps.length > 0) {
