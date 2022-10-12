@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/ol@v7.1.0/dist/ol.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v7.1.0/ol.css">
   <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
   <title>API Test</title>
 </head>
@@ -13,7 +15,7 @@
       <div style="margin-right: 10px">Enter a location:</div>
       <input id="mapbox_search" type="text" style="margin-right: 10px;">
       <div style="margin-right: 10px">Search within: </div>
-      <select id="radius">
+      <select id="radius" style="margin-right: 10px;">
         <option value="10">10 miles</option>
         <option value="20">20 miles</option>
         <option value="30">30 miles</option>
@@ -23,13 +25,12 @@
       </select>
       <button id="submit">Submit</button>
     </form>
-    <!-- <form id="nps_form" style="display:flex;justify-content:flex-start;">
-      <div style="margin-right: 10px">Enter a state code:</div>
-      <input id="nps_search" type="text" style="margin-right: 10px;">
-      <button id="submit">Submit</button>
-    </form> -->
   </header>
-  <main id="results" style="margin-top:20px;">
+  <main id="results" style="margin-top:20px;display:flex;">
+    <aside id="results_list" style="flex: 1 0 0"></aside>
+    <section id="results_map" style="flex: 3 0 0;position:relative;">
+      <div id="map" style="position:absolute;top:0;left:0;bottom:0;width:100%;"></div>
+    </section>
   </main>
 </body>
 <script type="text/javascript" src="./assets/js/api_test.js"></script>

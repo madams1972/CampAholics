@@ -8,7 +8,7 @@ $('#mapbox_form').submit( function(e) {
   .then(function(response) {return response.json()})
   .then(function(data) {
     let s = '';
-    $('#results').empty();
+    $('#results_list').empty();
     if (data.features.length == 0) {
       // No results.
       s += 'Sorry, no results returned.';
@@ -53,9 +53,30 @@ $('#mapbox_form').submit( function(e) {
           s += '<br/><b>No campgrounds found within '+mile_radius+' miles.</b>';
         }
     }    
-    $('#results').append(s);
+    $('#results_list').append(s);
   });
 });
+
+function init_map () {
+  const map = new Map({
+    target: 'map',
+    layers: [
+      new TileLayer({
+        source: new OSM()
+      })
+    ],
+    view: new View({
+      center: [0, 0],
+      zoom: 2
+    })
+  });
+
+  // create the marker
+  // new mapboxgl.Marker()
+  // .setLngLat([-0.1404545, 51.5220163])
+  // .addTo(map);
+
+}
 
 function get_distance_miles (coords_1, coords_2) {
   // Radius of Earth, in miles.
@@ -90,6 +111,9 @@ function get_distance_miles (coords_1, coords_2) {
 }
 
 $( function() {
+  // Build the map
+  init_map();
+
   // Pull ALL the park data from the API and store it in
   // a global variable. Have to do this because the NPS API
   // doesn't have an endpoint for city or coordinate-based
