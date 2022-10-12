@@ -2,81 +2,127 @@
 <html lang=" en"> </html> 
 
 <head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1" name="viewport">
-  <link href="images/favicon.png" rel="shortcut icon" type="image/x-icon">
-  <link href="images/webclip.png" rel="apple-touch-icon">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campsite Weather Tracker</title>
+  <link rel="stylesheet" href="responsive.css">
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-  
-          
-          
-              <a href="index.html" >Home</a>
-              <a href="about.html">About</a>
-              <a href="our-team.html" >Our Team</a>
-              <a href="contact.html" >Contact</a>
-            </nav>
-            
-          
-  
-        <h1>Campsite Finder Home</h1>
-        <p class="hero-paragraph">Don&#x27;t Let Bad Weather Ruin Your Adventure</p>
-        <div class="hero-button-wrapper">
-          <a href="shop.html" class="btn light outline w-button">Find a Camp</a>
-        
-          <div>How it Works</div>
-          <h2>Campsite Finder</h2>
-        </div>
-        <div>
-          <p>Simply type in where you would like to camp and let the Camp Finder do the rest</p>
-        </div>
-      </div>
-      
-      <div class="flex-container">
-      <div class="flex-items"></div>
-      <div class="flex-items"></div>
-      <div class="flex-items"></div>
-      <div class="flex-items"></div>
-   </div>
-          
-          <div class="flex-container">
-            <div class="flex-items"> </div> 
-            <div>Team Member</div>   
-          <p>Is it rainey in Seattle! Getting outside and hiking is still something you can do. Get your gear now!</p>
-        </div>
-        <div class="flex-container">
-          <div class="flex-items"> </div> 
-            <div>Team Member</div>   
-          <p>Is it rainey in Seattle! Getting outside and hiking is still something you can do. Get your gear now!</p>
-          <div class="flex-container">
-            <div class="flex-items"> </div> 
-            <div>Team Member</div>   
-          <p>Is it rainey in Seattle! Getting outside and hiking is still something you can do. Get your gear now!</p>
-        </div>
-        <div class="flex-container">
-          <div class="flex-items"> </div> 
-            <div>Team Member</div>   
-          <p>Is it rainey in Seattle! Getting outside and hiking is still something you can do. Get your gear now!</p>
-            
-        </div>
-      </div>
-    </div>
-  </div>
-  
-  <div class="footer wf-section">
+  <!-- header -->
+  <header class="menu">
     <div class="container">
-      <div class="footer-wrapper">
-        <div class="footer-logo-column">
-          
-        </div>
+      <div class="header-left">
+        <p class="headlogo" id="headline">CAMP FINDER: Find The Best Places to Camp</p>
       </div>
-      <div class="footer-bottom-wrapper">
-        <div class="small footer-small">Made by Team L© 2020.</div>
+      <a href="" class="menu-icon">
+        <span class="fa fa-bars"></span>
+      </a>
+      <div class="header-right">
+        <a button
+          class="transition ease-in-out delay-150 bg-green-900 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 ...font">
+          Contact Us
+          <a button
+            class=" transition ease-in-out delay-150 bg-green-800 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 ...">
+            About Us
+      </div>
+    </div>
+  </header>
+  <!-- Top Wrapper Start -->
+  <header class="top-wrapper">
+    <div class="brand-box">
+      <span class="brand"> </span>
+    </div>
+
+    <div class="text-box">
+      <h1 class="heading-primary">
+        <span class="heading-primary-main" >Camp Finder</span>
+        <span class="heading-primary-sub">Don't let the weather ruin your trip!</span>
+      </h1>
+      <a href="#" class="btn btn-white btn-animated">Get Started</a>
+    </div>
+  </header>
+  <!-- Top Wrapper End -->
+
+  <!-- Find a Camp -->
+  <div class="Find-a-Camp" id="camp-finder-form">
+    <div class="container-camp-finder">
+      <div class="camp-finder-pic">
+        <img src=" images/img-01.png" alt="IMG">
+      </div>
+      <form class="camp-finder-form">
+        <span class="camp-finder-form-title">
+          camp-finder
+        </span>
+        <div class="wrap-input validate-input">
+          <input class="input" type="text" name="Zip-Code" placeholder="Zip-Code">
+          <span class="shadow-input"></span>
+        </div>
+        <div class="container-camp-finder-form-btn">
+          <button class="camp-finder-form-btn">
+            <span>
+              Find a Camp
+              <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+            </span>
+          </button>
+        </div>
       </div>
     </div>
   </div>
-  
-  <script src="js/script.js" type="text/javascript"></script>
-  
+  <div class="our-team">
+    <div class="wrapper">
+      <h1>Our Team</h1>
+      <div class="team">
+        <div class="team_member">
+          <div class="team_img">
+            <img src="team1.png" alt="Team_image">
+          </div>
+          <h3>Malissa</h3>
+          <p class="role">Web Developer</p>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Est quaerat tempora, voluptatum quas facere
+            dolorum aut cumque nihil nulla harum nemo distinctio quam blanditiis dignissimos.</p>
+        </div>
+        <div class="team_member">
+          <div class="team_img">
+            <img src="team2.png" alt="Team_image">
+          </div>
+          <h3>Tanner</h3>
+          <p class="role">Web Developer</p>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Est quaerat tempora, voluptatum quas facere
+            dolorum aut cumque nihil nulla harum nemo distinctio quam blanditiis dignissimos.</p>
+        </div>
+        <div class="team_member">
+          <div class="team_img">
+            <img src="team3.png" alt="Team_image">
+          </div>
+          <h3>Jeffrey</h3>
+          <p class="role">Web Developer</p>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Est quaerat tempora, voluptatum quas facere
+            dolorum aut cumque nihil nulla harum nemo distinctio quam blanditiis dignissimos.</p>
+        </div>
+        <div class="team_member">
+          <div class="team_img">
+            <img src="images/reavy.jpg" alt="Team_image">
+          </div>
+          <h3>Benjaman</h3>
+          <p class="role">Web Developer</p>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Est quaerat tempora, voluptatum quas facere
+            dolorum aut cumque nihil nulla harum nemo distinctio quam blanditiis dignissimos.</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  </div>
+  <div class="nav2">
+    <ul>
+      <li><a href="#" title="To Top"><i class="fa fa-chevron-down"></i></a></li>
+    </ul>
+  </div>
+  <div class="footer-end">
+    <p>&copy; Copyright 2022 TEAM L</p>
+  </div>
+  </div>
 </body>
 </html>
