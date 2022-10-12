@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" style="height:100%;margin:0;">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="./assets/openlayers/dist/ol.js"></script>
+  <link rel="stylesheet" href="./assets/openlayers/ol.css">
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+  <title>API Test</title>
+</head>
+
+<body style="display:flex;flex-direction:column;height:100%;margin:0;">
+
+  <header style="padding:10px;">
+    <form id="mapbox_form" style="display:flex;justify-content:flex-start;">
+
+      <div style="margin-right: 10px">Enter a location:</div>
+
+      <input id="mapbox_search" type="text" style="margin-right: 10px;">
+      <div style="margin-right: 10px">Search within: </div>
+      <select id="radius" style="margin-right: 10px;">
+        <option value="10">10 miles</option>
+        <option value="20">20 miles</option>
+        <option value="30">30 miles</option>
+        <option value="40">40 miles</option>
+        <option value="50">50 miles</option>
+        <option value="100">100 miles</option>
+      </select>
+      <button id="submit">Submit</button>
+    </form>
+  </header>
+  <main id="results" style="padding-top:20px;display:flex;height:100%;">
+    <aside id="results_list" style="flex: 1 0 0"></aside>
+    <section id="results_map" style="flex: 3 0 0;height:100%;">
+      <div id="map" style="width:100%;height:100%;"></div>
+    </section>
+  </main>
+</body>
+<script type="text/javascript" src="./assets/js/script.js"></script>
+</html>
