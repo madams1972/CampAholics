@@ -12,18 +12,13 @@ $('#mapbox_form').submit( function(e) {
       // No results.
       $('#results_list').append('<p>Sorry, no results returned. Please try again.</p>');
     } else {
-      // Search found a matching location!
-      // First, convert miles into degrees of latitude
-      // and longitude.
-      let latitude_tolerance = parseFloat(mile_radius) / 69;
-      let longitude_tolerance = parseFloat(mile_radius) / 54.6;
       // Filter the park data down to a list that falls within the specified
       // distance from the user's searched location.
       let filtered_nps = window.nps_data.data.filter(e => 
-        parseFloat(e.longitude) >= parseFloat(data.features[0].center[0])-longitude_tolerance &&
-        parseFloat(e.longitude) <= parseFloat(data.features[0].center[0])+longitude_tolerance &&
-        parseFloat(e.latitude) >= parseFloat(data.features[0].center[1])-latitude_tolerance &&
-        parseFloat(e.latitude) <= parseFloat(data.features[0].center[1])+latitude_tolerance
+        parseFloat(get_distance_miles(
+          {x: e.latitude, y: e.longitude},
+          {x: data.features[0].center[1], y: data.features[0].center[0]}
+        )) < parseFloat(mile_radius)
       );
       // Sort the filtered park list by distance 
       // from the user's searched location.
@@ -42,9 +37,7 @@ $('#mapbox_form').submit( function(e) {
       // Display location information in results.
       $('#results_list').append(
         '<ul><li><b>Place returned:<br/></b> ' + data.features[0].place_name + '</li>' +
-          // '<li>Latitude: ' + data.features[0].center[1] + '</li>' +
-          // '<li>Longitude: ' + data.features[0].center[0] + '</li>' +
-          '<li><b>Campgrounds within '+mile_radius+' miles:<br/></b> '+filtered_nps.length+' results.</li>'+
+          '<li><b>Campgrounds within '+mile_radius+' miles:<br/></b> '+filtered_nps.length+' result(s).</li>'+
         '</ul>');
       // Iterate through the list of found 
       if (filtered_nps.length > 0) {
