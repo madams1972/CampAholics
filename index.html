@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="height:100%;margin:0;">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdn.jsdelivr.net/npm/ol@v7.1.0/dist/ol.js"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v7.1.0/ol.css">
+  <script src="./assets/openlayers/dist/ol.js"></script>
+  <link rel="stylesheet" href="./assets/openlayers/ol.css">
   <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
   <title>API Test</title>
 </head>
 
-<body>
+<body style="display:flex;flex-direction:column;height:100%;margin:0;">
 
-  <header>
+  <header style="padding:10px;">
     <form id="mapbox_form" style="display:flex;justify-content:flex-start;">
 
       <div style="margin-right: 10px">Enter a location:</div>
@@ -30,10 +30,10 @@
       <button id="submit">Submit</button>
     </form>
   </header>
-  <main id="results" style="margin-top:20px;display:flex;">
+  <main id="results" style="padding-top:20px;display:flex;height:100%;">
     <aside id="results_list" style="flex: 1 0 0"></aside>
-    <section id="results_map" style="flex: 3 0 0;position:relative;">
-      <div id="map" style="position:absolute;top:0;left:0;bottom:0;width:100%;"></div>
+    <section id="results_map" style="flex: 3 0 0;height:100%;">
+      <div id="map" style="width:100%;height:100%;"></div>
     </section>
   </main>
 </body>

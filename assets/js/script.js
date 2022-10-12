@@ -1,5 +1,6 @@
 $('#mapbox_form').submit( function(e) {
   e.preventDefault();
+  window.user_loc = null;
   // Gather data from the search form.
   let query = 'https://api.mapbox.com/geocoding/v5/mapbox.places/'+$('#mapbox_search').val().trim()+'.json?access_token=pk.eyJ1IjoiYmluZGVyYiIsImEiOiJjbDh5aDB4YmMwZ2hkM3VubjYxNnkzOGU5In0.-VmsT6OjBY12TuPgeei8bQ';
   let mile_radius = $('#radius').val();
@@ -14,10 +15,12 @@ $('#mapbox_form').submit( function(e) {
     } else {
       // Filter the park data down to a list that falls within the specified
       // distance from the user's searched location.
+      window.user_loc = data.features[0];
+      update_map(window.user_loc.center[0],window.user_loc.center[1]);
       let filtered_nps = window.nps_data.data.filter(e => 
         parseFloat(get_distance_miles(
           {x: e.latitude, y: e.longitude},
-          {x: data.features[0].center[1], y: data.features[0].center[0]}
+          {x: window.user_loc.center[1], y: window.user_loc.center[0]}
         )) < parseFloat(mile_radius)
       );
       // Sort the filtered park list by distance 
@@ -25,18 +28,18 @@ $('#mapbox_form').submit( function(e) {
       filtered_nps.sort(function (a,b) {
         let dist_a = get_distance_miles(
           {x: a.latitude, y: a.longitude},
-          {x: data.features[0].center[1], y: data.features[0].center[0]}
+          {x: window.user_loc.center[1], y: window.user_loc.center[0]}
         );
         let dist_b = get_distance_miles(
           {x: b.latitude, y: b.longitude},
-          {x: data.features[0].center[1], y: data.features[0].center[0]}
+          {x: window.user_loc.center[1], y: window.user_loc.center[0]}
         );
         if (parseFloat(dist_a) > parseFloat(dist_b)) return 1;
         if (parseFloat(dist_b) > parseFloat(dist_a)) return -1;
       });
       // Display location information in results.
       $('#results_list').append(
-        '<ul><li><b>Place returned:<br/></b> ' + data.features[0].place_name + '</li>' +
+        '<ul><li><b>Place returned:<br/></b> ' + window.user_loc.place_name + '</li>' +
           '<li><b>Campgrounds within '+mile_radius+' miles:<br/></b> '+filtered_nps.length+' result(s).</li>'+
         '</ul>');
       // Iterate through the list of found 
@@ -49,7 +52,7 @@ $('#mapbox_form').submit( function(e) {
           $('#campsite-'+i).append('<li><b>' + filtered_nps[i].name + '</b></li>');
           $('#campsite-'+i).append('<li><b>Distance: </b>' + get_distance_miles(
             {x: filtered_nps[i].latitude, y: filtered_nps[i].longitude},
-            {x: data.features[0].center[1], y: data.features[0].center[0]}
+            {x: window.user_loc.center[1], y: window.user_loc.center[0]}
           )+' miles away.</li>');
           // Weather data needs to be fetched, so create a placeholder list item
           // for it and populate when the fetch request completes.
@@ -64,7 +67,6 @@ $('#mapbox_form').submit( function(e) {
           fetch("https://api.openweathermap.org/data/2.5/forecast?lat=" + filtered_nps[i].latitude + "&lon=" + filtered_nps[i].longitude + "&appid=1168898d2e6677ed97caa56280826004&units=imperial")
           .then(function(response) {return response.json();})
           .then(function(data) {
-            console.log(i);
             $('#campsite-'+i+' .weather-data').append('<b>Weather:</b><ul><li> Temp at Campsite: ' + data.list[0].main.temp + '°F </li>' +
             '<li> Current Weather at Campsite: ' + data.list[0].weather[0].description + '</li></ul>');
           }); 
@@ -78,19 +80,19 @@ $('#mapbox_form').submit( function(e) {
 
 function init_map () {
   // WORK IN PROGRESS
-  
-  // const map = new Map({
-  //   target: 'map',
-  //   layers: [
-  //     new TileLayer({
-  //       source: new OSM()
-  //     })
-  //   ],
-  //   view: new View({
-  //     center: [0, 0],
-  //     zoom: 2
-  //   })
-  // });
+
+  window.map = new ol.Map({
+    layers: [
+      new ol.layer.Tile({
+        source: new ol.source.OSM()
+      })
+    ],
+    target: 'map',
+    view: new ol.View({
+      center: [0,0],
+      zoom: 2
+    })
+  });
 
   // create the marker
   // new mapboxgl.Marker()
@@ -99,6 +101,29 @@ function init_map () {
 
 }
 
+function update_map (lon,lat) {
+  // console.log(typeof(lat));
+  // console.log(window.map.getView());
+  // console.log(ol.proj.fromLonLat([0, 0]));
+  window.map.getView().animate({
+    center: ol.proj.fromLonLat([lon, lat]),
+    zoom: 10,
+    duration: 500
+  });
+  // var layer = new ol.layer.Vector({
+  //   source: new ol.source.Vector({
+  //     features: [
+  //       new ol.Feature({
+  //         geometry: new ol.geom.Point(ol.proj.fromLonLat([4.35247, 50.84673]))
+  //       })
+  //     ]
+  //   })
+  // });
+  // map.addLayer(layer);
+}
+
+// This function assumes Earth is a perfect sphere, which it isn't...
+// but the results should be within ~95% accuracy.
 function get_distance_miles (coords_1, coords_2) {
   // Radius of Earth, in miles.
   const r = 3958.8;
@@ -117,7 +142,6 @@ function get_distance_miles (coords_1, coords_2) {
     y: r*Math.cos(rad_1.x)*Math.sin(rad_1.y),
     z: r*Math.sin(rad_1.x)
   }
-
   let cart_2 = {
     x: r*Math.cos(rad_2.x)*Math.cos(rad_2.y),
     y: r*Math.cos(rad_2.x)*Math.sin(rad_2.y),
