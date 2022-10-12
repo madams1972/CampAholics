@@ -25,6 +25,20 @@ $('#mapbox_form').submit( function(e) {
         parseFloat(e.latitude) >= parseFloat(data.features[0].center[1])-latitude_tolerance &&
         parseFloat(e.latitude) <= parseFloat(data.features[0].center[1])+latitude_tolerance
       );
+      // Sort the filtered park list by distance 
+      // from the user's searched location.
+      filtered_nps.sort(function (a,b) {
+        let dist_a = get_distance_miles(
+          {x: a.latitude, y: a.longitude},
+          {x: data.features[0].center[1], y: data.features[0].center[0]}
+        );
+        let dist_b = get_distance_miles(
+          {x: b.latitude, y: b.longitude},
+          {x: data.features[0].center[1], y: data.features[0].center[0]}
+        );
+        if (dist_a > dist_b) return 1;
+        if (dist_b > dist_a) return -1;
+      });
       // Display location information in results.
       $('#results_list').append(
         '<ul> <li>Place returned: ' + data.features[0].place_name + '</li>' +
@@ -70,6 +84,8 @@ $('#mapbox_form').submit( function(e) {
 });
 
 function init_map () {
+  // WORK IN PROGRESS
+  
   // const map = new Map({
   //   target: 'map',
   //   layers: [
