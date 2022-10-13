@@ -46,8 +46,14 @@ $('#mapbox_form').submit( function(e) {
       if (filtered_nps.length > 0) {
         $('#results_list').append('<ol></ol>');
         for (let i=0;i<filtered_nps.length;i++) {
+
           // Add an ordered list item for each campsite.
           $('#results_list ol').append('<li><ul id="campsite-' + i + '"></ul></li>');
+          //Stores the LAT LON data for forecast lookup later
+          $('#campsite-'+i).data('lat', filtered_nps[i].latitude);
+          $('#campsite-'+i).data('lon', filtered_nps[i].longitude);
+          console.log('Campsite LAT LON Data: '+$('#campsite-'+i).data('lat')+" "+$('#campsite-'+i).data('lon'));
+
           // Populate the ordered list with general info about the campsite.
           $('#campsite-'+i).append('<li><b>' + filtered_nps[i].name + '</b></li>');
           $('#campsite-'+i).append('<li><b>Distance: </b>' + get_distance_miles(
@@ -69,6 +75,14 @@ $('#mapbox_form').submit( function(e) {
           .then(function(data) {
             $('#campsite-'+i+' .weather-data').append('<b>Weather:</b><ul><li> Temp at Campsite: ' + data.list[0].main.temp + '°F </li>' +
             '<li> Current Weather at Campsite: ' + data.list[0].weather[0].description + '</li></ul>');
+
+            //Adds lat lon data to the weather section
+            //$('#campsite-'+i).data('lat', filtered_nps[i].latitude);
+            // console.log('Check if data is stored '+$('#campsite-'+i).dataset.test);
+
+            //Add button to view a 5-Day forecast for each campsite
+            $('#campsite-'+i+' .weather-data').append('<button class="forecast-button" id="button-for-campsite-'+i+'">View Forecast</button>');
+    
           }); 
         }
       } else {
@@ -76,6 +90,11 @@ $('#mapbox_form').submit( function(e) {
       }
     }   
   });
+});
+
+//VIEW FORECAST BUTTON
+$(document).on('click', '.forecast-button', function () {
+  console.log('You pressed ' + this.id);
 });
 
 function init_map () {
