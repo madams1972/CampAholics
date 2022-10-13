@@ -46,14 +46,12 @@ $('#mapbox_form').submit( function(e) {
       if (filtered_nps.length > 0) {
         $('#results_list').append('<ol></ol>');
         for (let i=0;i<filtered_nps.length;i++) {
-
           // Add an ordered list item for each campsite.
           $('#results_list ol').append('<li><ul id="campsite-' + i + '"></ul></li>');
           //Stores the LAT LON data for forecast lookup later
           $('#campsite-'+i).data('lat', filtered_nps[i].latitude);
           $('#campsite-'+i).data('lon', filtered_nps[i].longitude);
-          console.log('Campsite LAT LON Data: '+$('#campsite-'+i).data('lat')+" "+$('#campsite-'+i).data('lon'));
-
+          console.log('Campsite'+i+ 'LAT LON Data: '+$('#campsite-'+i).data('lat')+" "+$('#campsite-'+i).data('lon'));
           // Populate the ordered list with general info about the campsite.
           $('#campsite-'+i).append('<li><b>' + filtered_nps[i].name + '</b></li>');
           $('#campsite-'+i).append('<li><b>Distance: </b>' + get_distance_miles(
@@ -68,18 +66,13 @@ $('#mapbox_form').submit( function(e) {
           } else {
             $('#campsite-' + i).append('<li>(no image available)</li>');
           };
-
           // Look up the weather conditions at each site
-          fetch("https://api.openweathermap.org/data/2.5/forecast?lat=" + filtered_nps[i].latitude + "&lon=" + filtered_nps[i].longitude + "&appid=1168898d2e6677ed97caa56280826004&units=imperial")
+          // Now uses the lat and lon data for #campsite-i
+          fetch("https://api.openweathermap.org/data/2.5/forecast?lat=" + $('#campsite-'+i).data('lat') + "&lon=" + $('#campsite-'+i).data('lon') + "&appid=1168898d2e6677ed97caa56280826004&units=imperial")
           .then(function(response) {return response.json();})
           .then(function(data) {
             $('#campsite-'+i+' .weather-data').append('<b>Weather:</b><ul><li> Temp at Campsite: ' + data.list[0].main.temp + '°F </li>' +
             '<li> Current Weather at Campsite: ' + data.list[0].weather[0].description + '</li></ul>');
-
-            //Adds lat lon data to the weather section
-            //$('#campsite-'+i).data('lat', filtered_nps[i].latitude);
-            // console.log('Check if data is stored '+$('#campsite-'+i).dataset.test);
-
             //Add button to view a 5-Day forecast for each campsite
             $('#campsite-'+i+' .weather-data').append('<button class="forecast-button" id="button-for-campsite-'+i+'">View Forecast</button>');
     
@@ -95,6 +88,9 @@ $('#mapbox_form').submit( function(e) {
 //VIEW FORECAST BUTTON
 $(document).on('click', '.forecast-button', function () {
   console.log('You pressed ' + this.id);
+  //Looks to its grandparent (#campsite-i) for its lat lon data
+  console.log('ID of Grandparent: '+$(this).parents(':eq(1)').attr('id'));
+  console.log('Lat Lon of chosen campsite: '+$(this).parents(':eq(1)').data('lat')+" "+$(this).parents(':eq(1)').data('lon'));
 });
 
 function init_map () {
