@@ -67,8 +67,7 @@ $('#mapbox_form').submit( function(e) {
             $('#campsite-' + i).append('<li>(no image available)</li>');
           };
           // Look up the weather conditions at each site
-          // Now uses the lat and lon data for #campsite-i
-          fetch("https://api.openweathermap.org/data/2.5/forecast?lat=" + $('#campsite-'+i).data('lat') + "&lon=" + $('#campsite-'+i).data('lon') + "&appid=1168898d2e6677ed97caa56280826004&units=imperial")
+          fetch("https://api.openweathermap.org/data/2.5/forecast?lat=" + filtered_nps[i].latitude + "&lon=" + filtered_nps[i].longitude + "&appid=1168898d2e6677ed97caa56280826004&units=imperial")
           .then(function(response) {return response.json();})
           .then(function(data) {
             $('#campsite-'+i+' .weather-data').append('<b>Weather:</b><ul><li> Temp at Campsite: ' + data.list[0].main.temp + '°F </li>' +
@@ -91,7 +90,17 @@ $(document).on('click', '.forecast-button', function () {
   //Looks to its grandparent (#campsite-i) for its lat lon data
   console.log('ID of Grandparent: '+$(this).parents(':eq(1)').attr('id'));
   console.log('Lat Lon of chosen campsite: '+$(this).parents(':eq(1)').data('lat')+" "+$(this).parents(':eq(1)').data('lon'));
+  forecast_call($(this).parents(':eq(1)').data('lat'), $(this).parents(':eq(1)').data('lon'))
 });
+
+function forecast_call (lat, lon) {
+  console.log("Lat Lon being passed into forecast_call function: " + lat + " " +lon);
+  fetch("https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=1168898d2e6677ed97caa56280826004&units=imperial")
+  .then(function(response) {return response.json();})
+  .then(function(data) {
+    console.log(data);
+  });
+}
 
 function init_map () {
   // WORK IN PROGRESS
