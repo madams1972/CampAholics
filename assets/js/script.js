@@ -51,6 +51,7 @@ $('#mapbox_form').submit( function(e) {
           //Stores the LAT LON data for forecast lookup later
           $('#campsite-'+i).data('lat', filtered_nps[i].latitude);
           $('#campsite-'+i).data('lon', filtered_nps[i].longitude);
+          $('#campsite-'+i).data('campname', filtered_nps[i].name);
           //console.log('Campsite'+i+ 'LAT LON Data: '+$('#campsite-'+i).data('lat')+" "+$('#campsite-'+i).data('lon'));
           // Populate the ordered list with general info about the campsite.
           $('#campsite-'+i).append('<li><b>' + filtered_nps[i].name + '</b></li>');
@@ -85,32 +86,72 @@ $('#mapbox_form').submit( function(e) {
 
 //VIEW FORECAST BUTTON
 $(document).on('click', '.forecast-button', function () {
-  forecast_call($(this).parents(':eq(1)').data('lat'), $(this).parents(':eq(1)').data('lon'))
+  forecast_call($(this).parents(':eq(1)').data('lat'), $(this).parents(':eq(1)').data('lon'), $(this).parents(':eq(1)').data('campname'))
 });
 
-function forecast_call (lat, lon) {
-  console.log("Lat Lon being passed into forecast_call function: " + lat + " " +lon);
+function forecast_call (lat, lon, camp) {
+  //console.log("Lat Lon being passed into forecast_call function: " + lat + " " +lon);
   fetch("https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=1168898d2e6677ed97caa56280826004&units=imperial")
   .then(function(response) {return response.json();})
   .then(function(data) {
 
-    let indexDay = moment.unix(data.list[0].dt).format("MM/DD/YYYY");
-    let indexRain = false;
+  console.log(data);
 
+    let indexDay = moment.unix(data.list[0].dt).format("MM/DD/YYYY");
+    let maxTemp 
+    let minTemp
+    let humidity = []
+    let rainTime 
+    let indexRain = false;
+  console.log("Showing weather data for: " + camp);
+    // Crunches Weather Data
     for (let i = 0; i < data.list.length; i++) {
-      if (data.list[i].weather[0].description.includes('rain')) {
-        //Check if the description for that 3 hour block includes rain at all
-        indexRain = true;
+      //Adds humidity to the array
+      humidity.push(data.list[i].main.humidity);
+      //Will only keep the highest max temp
+      if (maxTemp < data.list[i].main.temp_max || maxTemp === undefined) {
+        maxTemp = data.list[i].main.temp_max;
       };
-      if (indexDay != moment.unix(data.list[i].dt).format("MM/DD/YYYY")) {
-        //That means we're looking at a new day's weather
-        if (indexRain) {
-          console.log("It will rain at this campsite on "+indexDay+" !");
-        } else {
-          console.log("It will not rain at this campsite on "+indexDay+" !");
+      //Will only keep the lowest temp
+      if (minTemp > data.list[i].main.temp_min || minTemp === undefined) {
+        minTemp = data.list[i].main.temp_min;
+      };
+      //Checks for rain if the description for that 3 hour block includes rain at all
+      if (data.list[i].weather[0].description.includes('rain')) {
+        indexRain = true;
+        if (rainTime === undefined) {
+          if (moment.unix(data.list[i].dt).format("HH") >= 12) {
+            rainTime = moment.unix(data.list[i].dt).format("hh") + " PM";
+          } else {
+            rainTime = moment.unix(data.list[i].dt).format("hh") + " AM";
+          };
+          //Removes the first character if it's a 0
+          if (rainTime.charAt(0) == 0) {
+            rainTime = rainTime.substring(1);
+          };
         };
-      indexRain = false;
-      indexDay = moment.unix(data.list[i].dt).format("MM/DD/YYYY")
+      };
+      //Checks for a new day
+      if (indexDay != moment.unix(data.list[i].dt).format("MM/DD/YYYY")) {
+        //Calculate humidity
+        let humidOp = 0;
+        for (let x = 0; x < humidity.length; x++) {
+          humidOp = humidOp + humidity[x];
+        };
+        let aveHumid = Math.round(humidOp / humidity.length);
+        
+        // Make the weather note
+        let weatherNote = "Weather data for " + indexDay + ": Max Temp: " + maxTemp + " Min Temp: " + minTemp + " Average Humidity of " + aveHumid + "% "
+        if (indexRain) {
+          weatherNote += "Expect rain at " + rainTime;
+        };
+        console.log(weatherNote);
+        maxTemp = undefined;
+        minTemp = undefined;
+        indexRain = false;
+        rainTime = undefined;
+        humidity = [];
+        indexDay = moment.unix(data.list[i].dt).format("MM/DD/YYYY");
       };
     }
   });
