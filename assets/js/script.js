@@ -16,7 +16,6 @@ $('#mapbox_form').submit( function(e) {
       // Filter the park data down to a list that falls within the specified
       // distance from the user's searched location.
       window.user_loc = data.features[0];
-      update_map();
       let filtered_nps = window.nps_data.filter(e => 
         parseFloat(get_distance_miles(
           {x: e.latitude, y: e.longitude},
@@ -67,8 +66,6 @@ $('#mapbox_form').submit( function(e) {
           } else {
             $('#campsite-' + i).append('<li>(no image available)</li>');
           };
-          // Update the map.
-          update_map();
 
           // Look up the weather conditions at each site
           fetch("https://api.openweathermap.org/data/2.5/forecast?lat=" + filtered_nps[i].latitude + "&lon=" + filtered_nps[i].longitude + "&appid=1168898d2e6677ed97caa56280826004&units=imperial")
@@ -83,6 +80,8 @@ $('#mapbox_form').submit( function(e) {
       } else {
         $('#results_list').append('<p>Sorry, no campsites found within '+mile_radius+' miles.');
       }
+      // Update the map.
+      update_map();
     }   
   });
 });
@@ -161,12 +160,12 @@ function forecast_call (lat, lon, camp) {
 }
 
 function init_map () {
-  // WORK IN PROGRESS
 
   window.map = new ol.Map({
     layers: [
       new ol.layer.Tile({
-        source: new ol.source.OSM()
+        source: new ol.source.OSM(),
+        name: "base-layer"
       })
     ],
     target: 'map',
@@ -176,25 +175,19 @@ function init_map () {
     })
   });
 
-  // create the marker
-  // new mapboxgl.Marker()
-  // .setLngLat([-0.1404545, 51.5220163])
-  // .addTo(map);
-
 }
 
 function update_map () {
-  // console.log(typeof(lat));
-  // console.log(window.map.getView());
-  // console.log(ol.proj.fromLonLat([0, 0]));
-  window.map.getView().animate({
-    center: ol.proj.fromLonLat([window.user_loc.center[0], window.user_loc.center[1]]),
-    zoom: 10,
-    duration: 500
+  // Remove all layers.
+  let layers_to_remove = [];
+  window.map.getLayers().forEach(layer => {
+    if (layer.get('name') && (layer.get('name') === "user_layer" || layer.get('name') === "park_layer")) layers_to_remove.push(layer);
   });
+  for (let i=0;i<layers_to_remove.length;i++) window.map.removeLayer(layers_to_remove[i]);
 
-  // You are here!
+  // Marker for the user.
   var user_layer = new ol.layer.Vector({
+    name: 'user_layer',
     source: new ol.source.Vector({
       features: [
         new ol.Feature({
@@ -219,8 +212,10 @@ function update_map () {
   });
   window.map.addLayer(user_layer);
 
+  // If there are campsite results to display, build a layer
+  // and display them here.   
   if ($('ul[id^="campsite-"]').length > 0) {
-    // ...and here are the points.
+    
     let park_features = [];
     $('ul[id^="campsite-"]').each(function() {
       park_features.push(
@@ -230,6 +225,7 @@ function update_map () {
       );
     });
     var park_layer = new ol.layer.Vector({
+      name: 'park_layer',
       source: new ol.source.Vector({
         features: park_features
       }),
@@ -241,16 +237,26 @@ function update_map () {
             color: '#00CC00AA'
           }),
           stroke: new ol.style.Stroke({
-            color: '#343434',
+            color: '#444',
             width: 2
           })
         })
       })
     });
     window.map.addLayer(park_layer);
-
-    // window.map.getView().fit(park_layer.getSource().getExtent(), map.getSize(), {duration: 1000});
+    // Zooming the map properly requires extra steps when there are
+    // multiple markers.
+    let bounds = ol.extent.extend(park_layer.getSource().getExtent(),user_layer.getSource().getExtent())
+    let geom = ol.geom.Polygon.fromExtent(bounds);
+    geom.scale(1.2);
+    window.map.getView().fit(geom, {duration: 1000});
     
+  } else {
+    window.map.getView().animate({
+      center: ol.proj.fromLonLat([window.user_loc.center[0], window.user_loc.center[1]]),
+      zoom: 10,
+      duration: 1000
+    });
   }
 
 
