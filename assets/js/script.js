@@ -47,7 +47,7 @@ $('#mapbox_form').submit( function(e) {
         $('#results_list').append('<ol></ol>');
         for (let i=0;i<filtered_nps.length;i++) {
           // Add an ordered list item for each campsite.
-          $('#results_list ol').append('<li><ul id="campsite-' + i + '"></ul></li>');
+          $('#results_list ol').append('<li><div id="campsite-' + i + '"></div></li>');
           //Stores the LAT LON data for forecast lookup later
           $('#campsite-'+i).data('lat', filtered_nps[i].latitude);
           $('#campsite-'+i).data('lon', filtered_nps[i].longitude);
