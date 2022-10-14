@@ -214,10 +214,10 @@ function update_map () {
 
   // If there are campsite results to display, build a layer
   // and display them here.   
-  if ($('ul[id^="campsite-"]').length > 0) {
+  if ($('div[id^="campsite-"]').length > 0) {
     
     let park_features = [];
-    $('ul[id^="campsite-"]').each(function() {
+    $('div[id^="campsite-"]').each(function() {
       park_features.push(
         new ol.Feature({
           geometry: new ol.geom.Point(ol.proj.fromLonLat([$(this).data('lon'), $(this).data('lat')]))
