@@ -1,3 +1,31 @@
+/* ------------------------------------------
+   From the first stylesheet in our project
+   ------------------------------------------ */
+
+header {
+  width: auto;
+  padding: 10px;
+  border: 5px solid gray;
+  margin: 0;
+  color: black;
+  text-align:justify;
+  align-items: center;
+  background-image: url("Trees.webp");
+  height: 35vh;
+}
+
+main {
+  padding-left: 5%;
+}
+
+li {
+  color: black;
+}
+
+/* ------------------------------------------
+   From the second stylesheet in our project (old?)
+   ------------------------------------------ */
+
 /* =============== contact us ================*/
 @font-face {
   font-family: Montserrat-Regular;

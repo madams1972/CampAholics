@@ -16,8 +16,8 @@ $('#mapbox_form').submit( function(e) {
       // Filter the park data down to a list that falls within the specified
       // distance from the user's searched location.
       window.user_loc = data.features[0];
-      update_map(window.user_loc.center[0],window.user_loc.center[1]);
-      let filtered_nps = window.nps_data.data.filter(e => 
+      update_map();
+      let filtered_nps = window.nps_data.filter(e => 
         parseFloat(get_distance_miles(
           {x: e.latitude, y: e.longitude},
           {x: window.user_loc.center[1], y: window.user_loc.center[0]}
@@ -36,7 +36,7 @@ $('#mapbox_form').submit( function(e) {
         );
         if (parseFloat(dist_a) > parseFloat(dist_b)) return 1;
         if (parseFloat(dist_b) > parseFloat(dist_a)) return -1;
-      });
+      });      
       // Display location information in results.
       $('#results_list').append(
         '<ul><li><b>Place returned:<br/></b> ' + window.user_loc.place_name + '</li>' +
@@ -66,6 +66,9 @@ $('#mapbox_form').submit( function(e) {
           } else {
             $('#campsite-' + i).append('<li>(no image available)</li>');
           };
+          // Update the map.
+          update_map();
+
           // Look up the weather conditions at each site
           fetch("https://api.openweathermap.org/data/2.5/forecast?lat=" + filtered_nps[i].latitude + "&lon=" + filtered_nps[i].longitude + "&appid=1168898d2e6677ed97caa56280826004&units=imperial")
           .then(function(response) {return response.json();})
@@ -139,25 +142,77 @@ function init_map () {
 
 }
 
-function update_map (lon,lat) {
+function update_map () {
   // console.log(typeof(lat));
   // console.log(window.map.getView());
   // console.log(ol.proj.fromLonLat([0, 0]));
   window.map.getView().animate({
-    center: ol.proj.fromLonLat([lon, lat]),
+    center: ol.proj.fromLonLat([window.user_loc.center[0], window.user_loc.center[1]]),
     zoom: 10,
     duration: 500
   });
-  // var layer = new ol.layer.Vector({
-  //   source: new ol.source.Vector({
-  //     features: [
-  //       new ol.Feature({
-  //         geometry: new ol.geom.Point(ol.proj.fromLonLat([4.35247, 50.84673]))
-  //       })
-  //     ]
-  //   })
-  // });
-  // map.addLayer(layer);
+
+  // You are here!
+  var user_layer = new ol.layer.Vector({
+    source: new ol.source.Vector({
+      features: [
+        new ol.Feature({
+          geometry: new ol.geom.Point(ol.proj.fromLonLat([window.user_loc.center[0], window.user_loc.center[1]]))
+        })
+      ]
+    }),
+    style: new ol.style.Style({
+      image: new ol.style.RegularShape({
+        radius1: 10,
+        radius2: 5,
+        points: 5,
+        fill: new ol.style.Fill({
+          color: '#FF0000AA'
+        }),
+        stroke: new ol.style.Stroke({
+          color: '#444',
+          width: 2
+        })
+      })
+    })
+  });
+  window.map.addLayer(user_layer);
+
+  if ($('ul[id^="campsite-"]').length > 0) {
+    // ...and here are the points.
+    let park_features = [];
+    $('ul[id^="campsite-"]').each(function() {
+      park_features.push(
+        new ol.Feature({
+          geometry: new ol.geom.Point(ol.proj.fromLonLat([$(this).data('lon'), $(this).data('lat')]))
+        })
+      );
+    });
+    var park_layer = new ol.layer.Vector({
+      source: new ol.source.Vector({
+        features: park_features
+      }),
+      style: new ol.style.Style({
+        image: new ol.style.RegularShape({
+          points: 3,
+          radius: 8,
+          fill: new ol.style.Fill({
+            color: '#00CC00AA'
+          }),
+          stroke: new ol.style.Stroke({
+            color: '#343434',
+            width: 2
+          })
+        })
+      })
+    });
+    window.map.addLayer(park_layer);
+
+    // window.map.getView().fit(park_layer.getSource().getExtent(), map.getSize(), {duration: 1000});
+    
+  }
+
+
 }
 
 // This function assumes Earth is a perfect sphere, which it isn't...
@@ -197,15 +252,17 @@ $( function() {
   // Build the map
   init_map();
 
-  // Pull ALL the park data from the API and store it in
-  // a global variable. Have to do this because the NPS API
-  // doesn't have an endpoint for city or coordinate-based
-  // park searches.
-  window.nps_data = [];
-  let nps_query = 'https://developer.nps.gov/api/v1/campgrounds?limit=800&api_key=n9ZtO9IBzmlj5LnxQQ1WWSUaPbniCC1eIPJUIX0F';
-  fetch(nps_query)
-  .then(function(response) {return response.json()})
-  .then(function(data) {
-    window.nps_data = data;
-  });
+
+  // UPDATE: The code below is no longer necessary.
+  // Park data is now stored in a local file, which was fetched from the
+  // NPS API once and then filtered down to a smaller file with only the
+  // relevant data using a node.js script.
+
+  // window.nps_data = [];
+  // let nps_query = 'https://developer.nps.gov/api/v1/campgrounds?limit=800&api_key=n9ZtO9IBzmlj5LnxQQ1WWSUaPbniCC1eIPJUIX0F';
+  // fetch(nps_query)
+  // .then(function(response) {return response.json()})
+  // .then(function(data) {
+  //   window.nps_data = data;
+  // });
 });
