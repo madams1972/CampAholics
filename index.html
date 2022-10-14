@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" style="height:100%;margin:0;">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,19 +9,19 @@
   <link rel="stylesheet" href="./assets/openlayers_7_1_0/ol.css">
   <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
   <title>API Test</title>
 </head>
 
 <body style="display:flex;flex-direction:column;height:100%;margin:0;">
 
-  <header style="padding:10px;">
+  <header style="padding:10px;" class="border-4 border-black">
     <form id="mapbox_form" style="display:flex;justify-content:flex-start;">
-
-      <div style="margin-right: 10px">Enter a location:</div>
-
-      <input id="mapbox_search" type="text" style="margin-right: 10px;">
-      <div style="margin-right: 10px">Search within: </div>
-      <select id="radius" style="margin-right: 10px;">
+      <input id="mapbox_search" type="text" style="margin-right: 10px;"
+        class="placeholder-gray-500 border border-solid border-2 border-black rounded-md"
+        placeholder="  Enter your destination">
+      <select id="radius" class="border-solid border-2 border-black rounded-md" style="margin-right: 10px;">
         <option value="10">10 miles</option>
         <option value="20">20 miles</option>
         <option value="30">30 miles</option>
@@ -28,16 +29,19 @@
         <option value="50">50 miles</option>
         <option value="100">100 miles</option>
       </select>
-      <button id="submit">Submit</button>
+      <button class="bg-blue-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">Let's Camp!</button>
     </form>
+    
   </header>
-  <main id="results" style="padding-top:20px;display:flex;height:100%;">
+  <main id="results" style="padding-top:20px;display:flex;height:100%; max-height: 1000px; overflow-y: scroll;" class = "returned">
+
     <aside id="results_list" style="flex: 1 0 0"></aside>
-    <section id="results_map" style="flex: 3 0 0;height:100%;">
-      <div id="map" style="width:100%;height:100%;"></div>
+    <section id="results_map" style="flex: 3 0 0;height:50%; position: sticky; top: 40px">
+      <div id="map" style="width: 50%;height:100%;"></div>
     </section>
   </main>
 </body>
 <script type="text/javascript" src="./assets/js/nps_data.js"></script>
 <script type="text/javascript" src="./assets/js/script.js"></script>
+
 </html>
