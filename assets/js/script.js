@@ -11,7 +11,7 @@ $('#mapbox_form').submit( function(e) {
     $('#results_list').empty();
     if (data.features.length == 0) {
       // No results.
-      $('#results_list').append('<p>Sorry, no results returned. Please try again.</p>');
+      $('#results_list').append('<p>Sorry, no results returned.<br> Please try again.</br></p>');
     } else {
       // Filter the park data down to a list that falls within the specified
       // distance from the user's searched location.

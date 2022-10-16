@@ -7,16 +7,22 @@ body {
 header {
   width: auto;
   padding: 10px;
-  border: 5px solid gray;
-  color: black;
-  text-align: justify;
   align-items: center;
-  /* background-image: url("images/Trees.png"); */
   min-height: 20%;
+  display: flex;
+  justify-content: center;
 }
 
 main {
   padding-left: 5%;
+}
+
+#results_list {
+position: absolute;
+}
+
+#results {
+position: relative;
 }
 
 #results_list ol div {
@@ -29,19 +35,21 @@ main {
   padding: 10px;
   margin: 10px;
   background-color: rgba(0, 38, 255, 0.363);
-  font-size: larger;
+  font-size: 15px;
 }
 
 #results_list ul {
   box-sizing: border-box;
-  color: white;
+  color: yellow;
   text-align: left;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   padding: 10px;
   margin: 10px;
-  font-size: larger;
+  font-size: 15px;
   background-color: rgba(0, 38, 255, 0.363);
   max-width: 300px;
+  border-style: double;
+  border-width: 2px;
 }
 
 .box {
@@ -58,7 +66,22 @@ font-size: 25px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   padding: 10px;
   margin: 10px;
-  font-size: larger;
+  font-size: 15px;
   border-style: solid;
-  border-width: 5px;
+  border-width: 2px;
+}
+
+#mapbox_search {
+min-width: 300px;
+font-size: 15px;
+padding: 3px 8px;
+}
+
+#results_map {
+  justify-content: center; 
+  display: flex;
+}
+
+#radius {
+  font-size: 15px;
 }
