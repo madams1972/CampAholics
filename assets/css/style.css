@@ -7,12 +7,10 @@ body {
 header {
   width: auto;
   padding: 10px;
-  border: 5px solid gray;
-  color: black;
-  text-align: justify;
   align-items: center;
-  /* background-image: url("images/Trees.png"); */
   min-height: 20%;
+  display: flex;
+  justify-content: center;
 }
 
 main {
@@ -34,7 +32,7 @@ main {
 
 #results_list ul {
   box-sizing: border-box;
-  color: white;
+  color: red;
   text-align: left;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   padding: 10px;
@@ -42,6 +40,8 @@ main {
   font-size: larger;
   background-color: rgba(0, 38, 255, 0.363);
   max-width: 300px;
+  border-style: solid;
+  border-width: 5px;
 }
 
 .box {
@@ -61,4 +61,10 @@ font-size: 25px;
   font-size: larger;
   border-style: solid;
   border-width: 5px;
+}
+
+#mapbox_search {
+min-width: 300px;
+font-size: 24px;
+padding: 3px 8px;
 }
