@@ -1,28 +1,11 @@
 body {
   background-image: url("../images/NLights.jpeg");
-  background-repeat: no-repeat;
-  background-size: 100%;
 }
 
 header {
   width: auto;
-  padding: 10px;
   align-items: center;
   min-height: 20%;
-  display: flex;
-  justify-content: center;
-}
-
-main {
-  padding-left: 5%;
-}
-
-#results_list {
-position: absolute;
-}
-
-#results {
-position: relative;
 }
 
 #results_list ol div {
@@ -75,11 +58,6 @@ font-size: 25px;
 min-width: 300px;
 font-size: 15px;
 padding: 3px 8px;
-}
-
-#results_map {
-  justify-content: center; 
-  display: flex;
 }
 
 #radius {
