@@ -1,5 +1,5 @@
 body {
-  background-image: url("images/NLights.jpeg");
+  background-image: url("../images/NLights.jpeg");
   background-repeat: no-repeat;
   background-size: 100%;
 }
@@ -32,7 +32,7 @@ main {
   font-size: larger;
 }
 
-.returned ul {
+#results_list ul {
   box-sizing: border-box;
   color: white;
   text-align: left;
