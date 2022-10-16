@@ -1,0 +1,120 @@
+*{
+    margin:auto;
+    padding:auto;
+
+}
+.nav-menu{
+    flex-direction:row-reverse;
+    float: right;
+    font-size: 14px;
+    
+}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: rgb(33, 170, 115);
+  }
+  
+  li {
+    float: right;
+  }
+  
+  li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  /* Change the link color to #111 (black) on hover */
+  li a:hover {
+    background-color: rgb(14, 212, 126);
+  }
+
+  .flex-container{
+    display:flex;
+    flex-direction: row-reverse;
+    justify-content: space-around;
+    background-color:blanchedalmond;
+  }
+ .content-section{
+  background-color:blanchedalmond;
+  padding: 10px;
+  margin: 10px;
+ }
+  .bio-container{
+    display:flex;
+    flex-direction: row-reverse;
+    justify-content: space-around;
+  }
+  .main-header{
+    text-align: center;
+    font-size: 48px;
+    font-color: Green
+  }
+  .nav-container{
+    background-color: rgb(24, 181, 13);
+  }
+  .hero-para{
+    text-align: center;
+    font-size:26px;
+  }
+  .how-block{
+    text-align:center;
+    bottom: 20px;
+    right: 20px;
+    padding: 20px;
+  }
+  .why-header2, .why-header3{
+    text-align:center;
+    bottom: 20px;
+    right: 20px;
+    padding: 20px;
+  }
+  .bio-container{
+    background-color: rgb(24, 133, 104);
+    text-align: center;
+    font-color: white;
+    bottom: 20px;
+    right: 20px;
+    padding: 20px;
+  }
+  .why-block{
+    background-color:blanchedalmond;
+    text-align: center;
+    bottom: 20px;
+    right: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .bio-header{
+    text-align:center;
+    font-size: 26px;
+  }
+  .how-para{
+    font-size: 18px;
+  }
+  .hero.container {
+    position: relative;
+  }
+  
+  /* Bottom right text */
+  .text-block {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background-color: rgb(9, 145, 114);
+    color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .our-team{
+    background-color:aqua;
+
+  }
+ .bio-1, .bio-2, .bio-3, .bio-4{
+ color: white;
+ }
