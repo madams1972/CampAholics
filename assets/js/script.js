@@ -92,6 +92,8 @@ $(document).on('click', '.forecast-button', function () {
 });
 
 function forecast_call (lat, lon, camp) {
+  //Clears forecast column
+  $('#forecast').empty();
   //console.log("Lat Lon being passed into forecast_call function: " + lat + " " +lon);
   fetch("https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=1168898d2e6677ed97caa56280826004&units=imperial")
   .then(function(response) {return response.json();})
@@ -168,6 +170,7 @@ function forecast_call (lat, lon, camp) {
         if (indexSnow) {
           weatherNote += " Expect snow at " + rainTime;
         }
+        $('#forecast').append('<div class="forecast-card">' + weatherNote + '<div>');
         console.log(weatherNote);
         maxTemp = undefined;
         minTemp = undefined;
