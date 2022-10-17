@@ -104,7 +104,10 @@ function forecast_call (lat, lon, camp) {
     let minTemp
     let humidity = []
     let rainTime 
+    let snowTime
     let indexRain = false;
+    let indexSnow = false;
+
   console.log("Showing weather data for: " + camp);
     // Crunches Weather Data
     for (let i = 0; i < data.list.length; i++) {
@@ -133,6 +136,21 @@ function forecast_call (lat, lon, camp) {
           };
         };
       };
+      //Sloppily also adding a new check for snow.
+      if (data.list[i].weather[0].description.includes('snow')) {
+        indexSnow = true;
+        if (snowTime === undefined) {
+          if (moment.unix(data.list[i].dt).format("HH") >= 12) {
+            snowTime = moment.unix(data.list[i].dt).format("hh") + " PM";
+          } else {
+            snowTime = moment.unix(data.list[i].dt).format("hh") + " AM";
+          };
+          //Removes the first character if it's a 0
+          if (snowTime.charAt(0) == 0) {
+            snowTime = snowTime.substring(1);
+          };
+        };
+      };
       //Checks for a new day
       if (indexDay != moment.unix(data.list[i].dt).format("MM/DD/YYYY")) {
         //Calculate humidity
@@ -147,11 +165,16 @@ function forecast_call (lat, lon, camp) {
         if (indexRain) {
           weatherNote += "Expect rain at " + rainTime;
         };
+        if (indexSnow) {
+          weatherNote += " Expect snow at " + rainTime;
+        }
         console.log(weatherNote);
         maxTemp = undefined;
         minTemp = undefined;
         indexRain = false;
         rainTime = undefined;
+        indexSnow = false;
+        snowTime = undefined;
         humidity = [];
         indexDay = moment.unix(data.list[i].dt).format("MM/DD/YYYY");
       };
