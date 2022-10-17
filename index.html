@@ -1,123 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CampAholics</title>
-    <link href="./assets/css/style2.css" rel="stylesheet"/>
-  </head>
-  <body>
-    <main>
-        <header>
-            <h1 class="main-header">CampAholics</h1></header>
-            <div class="nav-container">
-                <div class="nav-wrapper">
-                    <div class="nav-button">
-                 <nav>
-                    <ul>
-        <li><a href="./index.html">Home</a></li>
-         <li><a href="./search.html" >Search</a></li>
-                  </ul>
-                </nav>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div class="hero-container">
-                      
-                    <div class="hero-image">  
-                      <img src="./assets/images/Home.jpeg" width="1380" height="750">
-                      <div class ="text-block">
-                        <p class="hero-para"><b>Everything you need to help you have a great trip.<br> Click on search to find your Campsite Today!</b></p>
-                        </div>
-                    </div> <!--  end hero block   -->
-                    
-                    <div class ="how-block">
-                      <h1 class= "how-header1">How it works</h1>
-                    
-                    <p class="how-para">Simply type in where you would like to camp and let the Camp Finder do the rest</p>
-                    </div>
-                    <hr> 
 
-                    <!--  end how block   -->
-                   <!-- Why block   -->
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+  <link href="./assets/css/home.css" rel="stylesheet" />
+  <title>CampAholics</title>
+</head>
 
-                </div>
-                    <div class="why-block">
-                        <div >
-                        <h2 class="why-header2">Why Use CAMPFINDER?</h2>
-                        <h3 class="why-header3">We're the best Online Camp Finder.</h3>
-
-                      </div>
-                    
-                  
-                <div class="content-section">
-                  <div class="flex-container">
-                      <div class="why-1"><img src="./assets/images/support-bg.jpeg" alt="Image of the great outdoors" class="image">
-                        <h3>Free Search</h3>
-                      </div>
-                      <div class="why-2"><img src="assets/images/banner-image-3.jpeg" alt="Image of the great outdoors" class="image">
-                        <h3>Find the Best Sites</h3>
-                      </div>
-                      <div class="why-3"><img src="./assets/images/support-bg.jpeg" alt="Image of the Great outdoors" class="image">
-                        <h3>Enjoy Time OutDoors</h3>
-                      </div>
-                      <div class="why-4"><img src="./assets/images/banner-image-2.jpeg" alt="Image of the great outdoors" class="image">
-                        <h3>Experience Adventure</h3>
-                      </div>
-                  </div>
-                </div>
-                </div>
-
-                <hr class= "bio-line">
-                <div class="our-team"> 
-                <h2 class= "bio-header">Our Team</h2>
-              </div>
-    <div class="bio-container">
-        <div class ="bio-1"><h1 style="color:white">Malissa Adams</h1>
-          <img src="./assets/images/me.jpeg" height = 250px, width =250px alt="Malissa Adams">
-          <h2 style="color:white">Web Developer</h2>
-                <p>HTML Project Manager</p>
-
-                <p><b> Email:</b> madams@stantonadams.com</p>
-                <p><b>Github: </b> https://github.com/madams1972</p>
-
-        </div>
-        <div class ="bio-2"> <h1 style="color:white">Ben Binder</h1>
-        <img src="https://ca.slack-edge.com/T03NXAJRNF5-U03UWNN4GU9-b62b01cc4101-512" height = 250px width =250px>
-        <h2 style="color:white">Web Developer</h2>
-            <p>API Project Manager</p>
-
-            <p><b>Email:</b></p>
-            <p><b>Github:</b>https://github.com/binderb</p>
-        </div>
-
-        <div class ="bio-3"><h1 style="color:white">Jeffery Flieschman</h1>
-        <img src="https://ca.slack-edge.com/T03NXAJRNF5-U03UCJRKC5A-1fb3aeb7d080-512" height = 250px width =250px>
-        <h2 style="color:white">Web Developer</h2>
-            <p>CSS Project Manager</p>
-
-            <p><b>Email:</b></p>
-            <p><b>Github:</b>https://github.com/FleischmanJ88</p>
-        </div>
-
-        <div class ="bio-4"><h1 style="color:white">Tanner Kothlow</h1>
-        <img src="https://ca.slack-edge.com/T03NXAJRNF5-U03UGK1UF60-2114622569a3-512" height = 250px width = 250px>
-        <h2 style="color:white">Web Developer</h2>
-            <p>JS Project Manager</p>
-
-            <p><b>Email:</b></p>
-            <p><b>Github</b>https://github.com/tannerkothlow</p>
-        </div>
-</div>
-      </main>
-      <hr class="bottom-line">
-      <footer>
-        <p>
-          Copyright 2022 FS Bootcamp Project 1 created by M.Adams, J.Fleischman, B. Binder, T.Kothlow
-        </p>
-        
-      </footer>
+<body class="bg-cover bg-no-repeat">
+  <header>
+    <nav class="flex bg-blue-900 text-white p-4 justify-between items-center">
+      <h1 class="block text-white font-bold text-2xl">CampAholics</h1>
+      <div id="links" class="font-bold">
+        <a class="px-2" href="index.html">Home</a>
+        <a class="px-2" href="search.html">Search</a>
+      </div>
+    </nav>
+  </header>
+  <main>
+    <!--  hero block  -->
+    <div id="hero" class="relative overflow-hidden">
+      <img src="./assets/images/Home.jpeg" class="object-cover object-center h-full w-full">
+      <div class="absolute bg-blue-900 text-white p-4 hero-block">
+        <p class="text-lg"><b>Everything you need to help you have a great trip.<br> Click on search to find your
+            Campsite Today!</b></p>
+      </div>
     </div>
-  </body>
+    <!--  how block  -->
+    <div class="m-4 p-4 bg-blue-900 bg-opacity-75 text-center">
+      <h1 class="text-2xl text-white font-bold">How it works</h1>
+      <p class="text-white">Simply type in where you would like to camp and let the Camp Finder do the rest</p>
+    </div>
+    <!-- Why block   -->
+    <div class="m-4 p-4 bg-blue-900 bg-opacity-75 text-center">
+      <h1 class="text-2xl text-white font-bold">Why Use CampAholics?</h2>
+        <p class="text-white">We're the best Online Camp Finder.</p>
+
+        <div class="flex justify-around text-white flex-wrap">
+          <div class="p-4">
+            <div class="rounded-full w-40 h-40 overflow-hidden">
+              <img class="object-cover object-center w-full h-full" src="./assets/images/support-bg.jpeg" alt="Image of the great outdoors">
+            </div>
+            <h3>Free Search</h3>
+          </div>
+          <div class="p-4">
+            <div class="rounded-full w-40 h-40 overflow-hidden">
+              <img class="object-cover object-center w-full h-full" src="assets/images/banner-image-3.jpeg"
+              alt="Image of the great outdoors">
+            </div>
+            <h3>Find the Best Sites</h3>
+          </div>
+          <div class="p-4">
+            <div class="rounded-full w-40 h-40 overflow-hidden">
+              <img class="object-cover object-center w-full h-full" src="./assets/images/support-bg.jpeg" alt="Image of the Great outdoors">
+            </div>
+            <h3>Enjoy Time Outdoors</h3>
+          </div>
+          <div class="p-4">
+            <div class="rounded-full w-40 h-40 overflow-hidden">
+              <img class="object-cover object-center w-full h-full" src="./assets/images/banner-image-2.jpeg"
+              alt="Image of the great outdoors">
+            </div>
+            <h3>Experience Adventure</h3>
+          </div>
+        </div>
+    </div>
+
+    <div class="m-4 p-4 bg-blue-900 bg-opacity-75 text-center">
+      <h1 class="text-2xl text-white font-bold">Our Team</h1>
+      <div class="flex justify-around text-white flex-wrap">
+        <div class="p-4">
+          <h2 class="font-bold">Malissa Adams</h2>
+          <div class="rounded-full w-40 h-40 overflow-hidden m-auto">
+            <img class="object-cover object-center w-full h-full" src="./assets/images/me.jpeg" alt="Malissa Adams">
+          </div>
+          <h2>Web Developer</h2>
+          <p>HTML Project Manager</p>
+          <p><b> Email:</b> madams@stantonadams.com</p>
+          <p><b>Github: </b> https://github.com/madams1972</p>
+        </div>
+        <div class="p-4">
+          <h2 class="font-bold">Ben Binder</h2>
+          <div class="rounded-full w-40 h-40 overflow-hidden m-auto">
+            <img class="object-cover object-center w-full h-full" src="https://ca.slack-edge.com/T03NXAJRNF5-U03UWNN4GU9-b62b01cc4101-512" alt="Ben Binder">
+          </div>
+          <h2>Web Developer</h2>
+          <p>API Project Manager</p>
+          <p><b>Email:</b></p>
+          <p><b>Github:</b>https://github.com/binderb</p>
+        </div>
+
+        <div class="p-4">
+          <h2 class="font-bold">Jeffery Flieschman</h2>
+          <div class="rounded-full w-40 h-40 overflow-hidden m-auto">
+            <img class="object-cover object-center w-full h-full" src="https://ca.slack-edge.com/T03NXAJRNF5-U03UCJRKC5A-1fb3aeb7d080-512" alt="Jeffrey Fleischman">
+          </div>
+          <h2>Web Developer</h2>
+          <p>CSS Project Manager</p>
+          <p><b>Email:</b></p>
+          <p><b>Github:</b>https://github.com/FleischmanJ88</p>
+        </div>
+
+        <div class="p-4">
+          <h2 class="font-bold">Tanner Kothlow</h2>
+          <div class="rounded-full w-40 h-40 overflow-hidden m-auto">
+            <img class="object-cover object-center w-full h-full" src="https://ca.slack-edge.com/T03NXAJRNF5-U03UGK1UF60-2114622569a3-512" alt="Tanner Kothlow">
+          </div>
+          <h2>Web Developer</h2>
+          <p>JS Project Manager</p>
+
+          <p><b>Email:</b></p>
+          <p><b>Github</b>https://github.com/tannerkothlow</p>
+        </div>
+      </div>
+  </main>
+  <footer class="flex bg-blue-900 text-white p-1 justify-center">
+    <p>&copy; 2022 FS Bootcamp Project 1 created by M.Adams, J.Fleischman, B. Binder, T.Kothlow</p>
+  </footer>
+  </div>
+</body>
+
 </html>
