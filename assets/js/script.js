@@ -111,6 +111,7 @@ function forecast_call (lat, lon, camp) {
     let indexSnow = false;
 
   console.log("Showing weather data for: " + camp);
+  $('#forecast').append('<ul id="camp-forecaster"><li>' + camp + '</li><li>Five Day Forecast</li></ul>');
     // Crunches Weather Data
     for (let i = 0; i < data.list.length; i++) {
       //Adds humidity to the array
@@ -170,18 +171,18 @@ function forecast_call (lat, lon, camp) {
           weatherNote += " Expect snow at " + snowTime;
         };
         console.log(weatherNote);
-        
+
         //Appends split for code readability
         $('#forecast').append('<div class="forecast-card"><ul>' + '<li>' + indexDay +'</li>' +
         '<li> High of ' + maxTemp + '°F</li><li>Low of ' + minTemp + '°F</li>' +
         '<li>' + aveHumid + '% Humidity</li>' +
-        '<li id ="bad-weather-"'+i+ '></li>' +
+        '<li class="bad-weather" id="bw-'+i+ '></li>' +
         '</ul></div>');
         if (indexRain) {
-          $('#bad-weather'+i).append('<li>Expect snow at ' + rainTime + '</li>');
+          $('#bw'+i).append('<li>Expect snow at ' + rainTime + '</li>');
         };
         if (indexSnow) {
-          $('#bad-weather'+i).append('<li>Expect snow at ' + snowTime + '</li>');
+          $('#bw'+i).append('<li>Expect snow at ' + snowTime + '</li>');
         }
        
         maxTemp = undefined;

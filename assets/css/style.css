@@ -85,10 +85,34 @@ padding: 3px 8px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   padding: 10px;
   margin: 10px;
-  font-size: 15px;
+  font-size: 18px;
   background-color: rgba(0, 38, 255, 0.363);
   /* max-width: 300px; */
   border-style: double;
   border-width: 2px;
   width: 95%;
+}
+
+#camp-forecaster li {
+  text-align: center;
+}
+
+#camp-forecaster li:first-child {
+  font-size: 25px;
+  font-weight: bolder;
+}
+
+.forecast-card ul li:first-child {
+  font-size: 25px;
+  font-weight: bolder;
+  padding-left: 0px;
+  padding-bottom: 2px;
+}
+
+.forecast-card ul li {
+  padding-left: 20px;
+}
+
+.bad-weather {
+  color: rgb(255, 111, 111);
 }
