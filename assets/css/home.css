@@ -6,39 +6,45 @@ body {
   height: 500px;
 }
 
-  .bio-container{
-    display:flex;
-    flex-direction: row-reverse;
-    justify-content: space-around;
-  }
+.bio-container {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-around;
+}
 
-  .hero-para{
-    text-align: center;
-    font-size:26px;
-  }
+.hero-para {
+  text-align: center;
+  font-size: 26px;
+}
 
-  .bio-container{
-    background-color: rgb(24, 133, 104);
-    text-align: center;
-    font-color: white;
-    bottom: 20px;
-    right: 20px;
-    padding: 20px;
-  }
-  .bio-header{
-    text-align:center;
-    font-size: 26px;
-  }
-  
-  /* Bottom right text */
-  .hero-block {
-    bottom: 20px;
-    right: 20px;
-  }
-  .our-team{
-    background-color:aqua;
+.bio-container {
+  background-color: rgb(24, 133, 104);
+  text-align: center;
+  color: white;
+  bottom: 20px;
+  right: 20px;
+  padding: 20px;
+}
 
-  }
- .bio-1, .bio-2, .bio-3, .bio-4{
- color: white;
- }
+.bio-header {
+  text-align: center;
+  font-size: 26px;
+}
+
+/* Bottom right text */
+.hero-block {
+  bottom: 20px;
+  right: 20px;
+}
+
+.our-team {
+  background-color: aqua;
+
+}
+
+.bio-1,
+.bio-2,
+.bio-3,
+.bio-4 {
+  color: white;
+}
