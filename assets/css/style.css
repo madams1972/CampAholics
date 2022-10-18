@@ -63,3 +63,32 @@ padding: 3px 8px;
 #radius {
   font-size: 15px;
 }
+
+/* Forecast */
+/* #results_list ol div {
+  box-sizing: border-box;
+  color: white;
+  max-width: 300px;
+  text-align: left;
+  width: 300px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  padding: 10px;
+  margin: 10px;
+  background-color: rgba(0, 38, 255, 0.363);
+  font-size: 15px;
+} */
+
+#forecast ul {
+  box-sizing: border-box;
+  color: white;
+  text-align: left;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  padding: 10px;
+  margin: 10px;
+  font-size: 15px;
+  background-color: rgba(0, 38, 255, 0.363);
+  /* max-width: 300px; */
+  border-style: double;
+  border-width: 2px;
+  width: 95%;
+}
