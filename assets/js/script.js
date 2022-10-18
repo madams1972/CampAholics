@@ -175,15 +175,16 @@ function forecast_call (lat, lon, camp) {
 
         //Appends split for code readability
         $('#forecast').append('<div class="forecast-card"><ul>' + '<li>' + indexDay +'</li>' +
-        '<li> High of ' + maxTemp + '°F</li><li>Low of ' + minTemp + '°F</li>' +
+        '<li> High of ' + Math.round(maxTemp) + '°F</li><li>Low of ' + Math.round(minTemp) + '°F</li>' +
         '<li>' + aveHumid + '% Humidity</li>' +
-        '<li class="bad-weather" id="bw-'+i+ '></li>' +
+        '<li class="bad-weather" id="badw'+i+'"></li>' +
         '</ul></div>');
+        console.log("#badw"+i)
         if (indexRain) {
-          $('#bw'+i).append('<li>Expect snow at ' + rainTime + '</li>');
+          $('#badw'+i).append('<p>Expect rain at ' + rainTime + '!</p>');
         };
         if (indexSnow) {
-          $('#bw'+i).append('<li>Expect snow at ' + snowTime + '</li>');
+          $('#badw'+i).append('<p>Expect snow at ' + snowTime + '!</p>');
         }
        
         maxTemp = undefined;
