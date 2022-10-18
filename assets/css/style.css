@@ -109,6 +109,21 @@ padding: 3px 8px;
   padding-bottom: 2px;
 }
 
+.forecast-button {
+  background-color: rgba(0, 38, 255, 0.363);
+  border: 2px solid white;
+  padding: 2px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+
+.forecast-button:hover {
+  background-color: rgba(10, 13, 153, 0.486);
+  color: rgb(235, 231, 255);
+}
+
 .forecast-card ul li {
   padding-left: 20px;
 }

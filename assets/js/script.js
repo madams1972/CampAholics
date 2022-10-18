@@ -71,10 +71,11 @@ $('#mapbox_form').submit( function(e) {
           fetch("https://api.openweathermap.org/data/2.5/forecast?lat=" + filtered_nps[i].latitude + "&lon=" + filtered_nps[i].longitude + "&appid=1168898d2e6677ed97caa56280826004&units=imperial")
           .then(function(response) {return response.json();})
           .then(function(data) {
-            $('#campsite-'+i+' .weather-data').append('<b>Weather:</b><ul><li> Temp at Campsite: ' + data.list[0].main.temp + '°F </li>' +
-            '<li> Current Weather at Campsite: ' + data.list[0].weather[0].description + '</li></ul>');
+            let currentTemp = Math.round(data.list[0].main.temp);
+            $('#campsite-'+i+' .weather-data').append('<b>Weather:</b><ul><li> Currently ' + currentTemp + '°F </li>' +
+            '<li>With ' + data.list[0].weather[0].description + '</li></ul>');
             //Add button to view a 5-Day forecast for each campsite
-            $('#campsite-'+i+' .weather-data').append('<button class="forecast-button" id="button-for-campsite-'+i+'">View Forecast</button>');
+            $('#campsite-'+i+' .weather-data').append('<button class="forecast-button" id="button-for-campsite-'+i+'">View Full Forecast</button>');
           }); 
         }
       } else {
