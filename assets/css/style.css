@@ -137,3 +137,6 @@ padding: 3px 8px;
 .bad-weather {
   color: rgb(255, 111, 111);
 }
+#results_list {
+  color: white;
+}
