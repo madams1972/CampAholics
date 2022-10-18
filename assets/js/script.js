@@ -71,10 +71,11 @@ $('#mapbox_form').submit( function(e) {
           fetch("https://api.openweathermap.org/data/2.5/forecast?lat=" + filtered_nps[i].latitude + "&lon=" + filtered_nps[i].longitude + "&appid=1168898d2e6677ed97caa56280826004&units=imperial")
           .then(function(response) {return response.json();})
           .then(function(data) {
-            $('#campsite-'+i+' .weather-data').append('<b>Weather:</b><ul><li> Temp at Campsite: ' + data.list[0].main.temp + '°F </li>' +
-            '<li> Current Weather at Campsite: ' + data.list[0].weather[0].description + '</li></ul>');
+            let currentTemp = Math.round(data.list[0].main.temp);
+            $('#campsite-'+i+' .weather-data').append('<b>Weather:</b><ul><li> Currently ' + currentTemp + '°F </li>' +
+            '<li>With ' + data.list[0].weather[0].description + '</li></ul>');
             //Add button to view a 5-Day forecast for each campsite
-            $('#campsite-'+i+' .weather-data').append('<button class="forecast-button" id="button-for-campsite-'+i+'">View Forecast</button>');
+            $('#campsite-'+i+' .weather-data').append('<button class="forecast-button" id="button-for-campsite-'+i+'">View Full Forecast</button>');
           }); 
         }
       } else {
@@ -92,6 +93,8 @@ $(document).on('click', '.forecast-button', function () {
 });
 
 function forecast_call (lat, lon, camp) {
+  //Clears forecast column
+  $('#forecast').empty();
   //console.log("Lat Lon being passed into forecast_call function: " + lat + " " +lon);
   fetch("https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=1168898d2e6677ed97caa56280826004&units=imperial")
   .then(function(response) {return response.json();})
@@ -104,12 +107,21 @@ function forecast_call (lat, lon, camp) {
     let minTemp
     let humidity = []
     let rainTime 
+    let snowTime
     let indexRain = false;
+    let indexSnow = false;
+    let iconID
+
   console.log("Showing weather data for: " + camp);
+  $('#forecast').append('<ul id="camp-forecaster"><li>' + camp + '</li><li>Five Day Forecast</li></ul>');
     // Crunches Weather Data
     for (let i = 0; i < data.list.length; i++) {
       //Adds humidity to the array
       humidity.push(data.list[i].main.humidity);
+      //Grabs an icon
+      if (data.list[i].dt_txt.includes("18:00:00") || iconID === undefined) {
+        iconID = data.list[i].weather[0].icon;
+      }
       //Will only keep the highest max temp
       if (maxTemp < data.list[i].main.temp_max || maxTemp === undefined) {
         maxTemp = data.list[i].main.temp_max;
@@ -133,6 +145,21 @@ function forecast_call (lat, lon, camp) {
           };
         };
       };
+      //Sloppily also adding a new check for snow.
+      if (data.list[i].weather[0].description.includes('snow')) {
+        indexSnow = true;
+        if (snowTime === undefined) {
+          if (moment.unix(data.list[i].dt).format("HH") >= 12) {
+            snowTime = moment.unix(data.list[i].dt).format("hh") + " PM";
+          } else {
+            snowTime = moment.unix(data.list[i].dt).format("hh") + " AM";
+          };
+          //Removes the first character if it's a 0
+          if (snowTime.charAt(0) == 0) {
+            snowTime = snowTime.substring(1);
+          };
+        };
+      };
       //Checks for a new day
       if (indexDay != moment.unix(data.list[i].dt).format("MM/DD/YYYY")) {
         //Calculate humidity
@@ -141,17 +168,37 @@ function forecast_call (lat, lon, camp) {
           humidOp = humidOp + humidity[x];
         };
         let aveHumid = Math.round(humidOp / humidity.length);
-        
         // Make the weather note
         let weatherNote = "Weather data for " + indexDay + ": Max Temp: " + maxTemp + " Min Temp: " + minTemp + " Average Humidity of " + aveHumid + "% "
         if (indexRain) {
           weatherNote += "Expect rain at " + rainTime;
         };
+        if (indexSnow) {
+          weatherNote += " Expect snow at " + snowTime;
+        };
         console.log(weatherNote);
+
+        //Appends split for code readability
+        $('#forecast').append('<div class="forecast-card"><ul>' + '<li>' + indexDay +'</li>' +
+        '<li> High of ' + Math.round(maxTemp) + '°F</li><li>Low of ' + Math.round(minTemp) + '°F</li>' +
+        '<li>' + aveHumid + '% Humidity</li>' +
+        '<li class="bad-weather" id="badw'+i+'"></li>' +
+        '<img src="http://openweathermap.org/img/wn/' + iconID + '@2x.png">' +
+        '</ul></div>');
+        console.log("#badw"+i)
+        if (indexRain) {
+          $('#badw'+i).append('<p>Expect rain at ' + rainTime + '!</p>');
+        };
+        if (indexSnow) {
+          $('#badw'+i).append('<p>Expect snow at ' + snowTime + '!</p>');
+        }
+       
         maxTemp = undefined;
         minTemp = undefined;
         indexRain = false;
         rainTime = undefined;
+        indexSnow = false;
+        snowTime = undefined;
         humidity = [];
         indexDay = moment.unix(data.list[i].dt).format("MM/DD/YYYY");
       };
