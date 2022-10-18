@@ -109,6 +109,12 @@ padding: 3px 8px;
   padding-bottom: 2px;
 }
 
+.forecast-card img {
+  float: right;
+  position: relative;
+  bottom: 142px;
+}
+
 .forecast-button {
   background-color: rgba(0, 38, 255, 0.363);
   border: 2px solid white;
