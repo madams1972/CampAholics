@@ -110,6 +110,7 @@ function forecast_call (lat, lon, camp) {
     let snowTime
     let indexRain = false;
     let indexSnow = false;
+    let iconID
 
   console.log("Showing weather data for: " + camp);
   $('#forecast').append('<ul id="camp-forecaster"><li>' + camp + '</li><li>Five Day Forecast</li></ul>');
@@ -117,6 +118,10 @@ function forecast_call (lat, lon, camp) {
     for (let i = 0; i < data.list.length; i++) {
       //Adds humidity to the array
       humidity.push(data.list[i].main.humidity);
+      //Grabs an icon
+      if (data.list[i].dt_txt.includes("18:00:00") || iconID === undefined) {
+        iconID = data.list[i].weather[0].icon;
+      }
       //Will only keep the highest max temp
       if (maxTemp < data.list[i].main.temp_max || maxTemp === undefined) {
         maxTemp = data.list[i].main.temp_max;
@@ -178,6 +183,7 @@ function forecast_call (lat, lon, camp) {
         '<li> High of ' + Math.round(maxTemp) + '°F</li><li>Low of ' + Math.round(minTemp) + '°F</li>' +
         '<li>' + aveHumid + '% Humidity</li>' +
         '<li class="bad-weather" id="badw'+i+'"></li>' +
+        '<img src="http://openweathermap.org/img/wn/' + iconID + '@2x.png">' +
         '</ul></div>');
         console.log("#badw"+i)
         if (indexRain) {
