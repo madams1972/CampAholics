@@ -161,17 +161,29 @@ function forecast_call (lat, lon, camp) {
           humidOp = humidOp + humidity[x];
         };
         let aveHumid = Math.round(humidOp / humidity.length);
-        
         // Make the weather note
         let weatherNote = "Weather data for " + indexDay + ": Max Temp: " + maxTemp + " Min Temp: " + minTemp + " Average Humidity of " + aveHumid + "% "
         if (indexRain) {
           weatherNote += "Expect rain at " + rainTime;
         };
         if (indexSnow) {
-          weatherNote += " Expect snow at " + rainTime;
-        }
-        $('#forecast').append('<div class="forecast-card">' + weatherNote + '<div>');
+          weatherNote += " Expect snow at " + snowTime;
+        };
         console.log(weatherNote);
+        
+        //Appends split for code readability
+        $('#forecast').append('<div class="forecast-card"><ul>' + '<li>' + indexDay +'</li>' +
+        '<li> High of ' + maxTemp + '°F</li><li>Low of ' + minTemp + '°F</li>' +
+        '<li>' + aveHumid + '% Humidity</li>' +
+        '<li id ="bad-weather-"'+i+ '></li>' +
+        '</ul></div>');
+        if (indexRain) {
+          $('#bad-weather'+i).append('<li>Expect snow at ' + rainTime + '</li>');
+        };
+        if (indexSnow) {
+          $('#bad-weather'+i).append('<li>Expect snow at ' + snowTime + '</li>');
+        }
+       
         maxTemp = undefined;
         minTemp = undefined;
         indexRain = false;
