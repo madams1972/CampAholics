@@ -41,8 +41,7 @@ For Group Project 1: We are tasked, as a group, to collaborate and create a func
 ♦ Links to the deployed application and the GitHub repository.
 
 ### <strong>Website Link</strong>
-
-https://github.com/madams1972/CampAholics<br>
+https://madams1972.github.io/CampAholics/<br>
 
 
 
