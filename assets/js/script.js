@@ -2,24 +2,25 @@ $('#mapbox_form').submit( function(e) {
   e.preventDefault();
   window.user_loc = null;
   // Gather data from the search form.
-  let query = 'https://api.mapbox.com/geocoding/v5/mapbox.places/'+$('#mapbox_search').val().trim()+'.json?access_token=pk.eyJ1IjoiYmluZGVyYiIsImEiOiJjbDh5aDB4YmMwZ2hkM3VubjYxNnkzOGU5In0.-VmsT6OjBY12TuPgeei8bQ';
+  const query = 'https://api.openweathermap.org/geo/1.0/direct?q='+encodeURI($('#mapbox_search').val().trim())+'&limit=10&appid=9f18efe2cbef009702bff1a605ad69c2';
   let mile_radius = $('#radius').val();
   // Search for the requested location.
   fetch(query)
   .then(function(response) {return response.json()})
   .then(function(data) {
     $('#results_list').empty();
-    if (data.features.length == 0) {
+    console.log(data);
+    if (data.length == 0) {
       // No results.
       $('#results_list').append('<p>Sorry, no results returned.<br> Please try again.</br></p>');
     } else {
       // Filter the park data down to a list that falls within the specified
       // distance from the user's searched location.
-      window.user_loc = data.features[0];
+      window.user_loc = data[0];
       let filtered_nps = window.nps_data.filter(e => 
         parseFloat(get_distance_miles(
           {x: e.latitude, y: e.longitude},
-          {x: window.user_loc.center[1], y: window.user_loc.center[0]}
+          {x: window.user_loc.lat, y: window.user_loc.lon}
         )) < parseFloat(mile_radius)
       );
       // Sort the filtered park list by distance 
@@ -27,18 +28,18 @@ $('#mapbox_form').submit( function(e) {
       filtered_nps.sort(function (a,b) {
         let dist_a = get_distance_miles(
           {x: a.latitude, y: a.longitude},
-          {x: window.user_loc.center[1], y: window.user_loc.center[0]}
+          {x: window.user_loc.lat, y: window.user_loc.lon}
         );
         let dist_b = get_distance_miles(
           {x: b.latitude, y: b.longitude},
-          {x: window.user_loc.center[1], y: window.user_loc.center[0]}
+          {x: window.user_loc.lat, y: window.user_loc.lon}
         );
         if (parseFloat(dist_a) > parseFloat(dist_b)) return 1;
         if (parseFloat(dist_b) > parseFloat(dist_a)) return -1;
       });      
       // Display location information in results.
       $('#results_list').append(
-        '<ul><li><b>Place returned:<br/></b> ' + window.user_loc.place_name + '</li>' +
+        '<ul><li><b>Place returned:<br/></b> ' + window.user_loc.name + '</li>' +
           '<li><b>Campgrounds within '+mile_radius+' miles:<br/></b> '+filtered_nps.length+' result(s).</li>'+
         '</ul>');
       // Iterate through the list of found 
@@ -56,7 +57,7 @@ $('#mapbox_form').submit( function(e) {
           $('#campsite-'+i).append('<li><b>' + filtered_nps[i].name + '</b></li>');
           $('#campsite-'+i).append('<li><b>Distance: </b>' + get_distance_miles(
             {x: filtered_nps[i].latitude, y: filtered_nps[i].longitude},
-            {x: window.user_loc.center[1], y: window.user_loc.center[0]}
+            {x: window.user_loc.lat, y: window.user_loc.lon}
           )+' miles away.</li>');
           // Weather data needs to be fetched, so create a placeholder list item
           // for it and populate when the fetch request completes.
@@ -238,7 +239,7 @@ function update_map () {
     source: new ol.source.Vector({
       features: [
         new ol.Feature({
-          geometry: new ol.geom.Point(ol.proj.fromLonLat([window.user_loc.center[0], window.user_loc.center[1]]))
+          geometry: new ol.geom.Point(ol.proj.fromLonLat([window.user_loc.lon, window.user_loc.lat]))
         })
       ]
     }),
@@ -300,7 +301,7 @@ function update_map () {
     
   } else {
     window.map.getView().animate({
-      center: ol.proj.fromLonLat([window.user_loc.center[0], window.user_loc.center[1]]),
+      center: ol.proj.fromLonLat([window.user_loc.lon, window.user_loc.lat]),
       zoom: 10,
       duration: 1000
     });
